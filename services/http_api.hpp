@@ -1,8 +1,8 @@
 #pragma once
 #include <functional>
 #include <mutex>
-
-#include "exterrnal/crow_all.h"
+#include <string>
+#include <crow.h>
 
 class HttpApiService {
     std::reference_wrapper<std::mutex> mutex_;
@@ -16,11 +16,11 @@ public:
     }
 
     void register_routes() {
-        CROW_ROUTE(app, "/item/add/<string>").methods(crow::HTTPMethod::POST)
-        ([this](const std::string &item) {
+        CROW_ROUTE(app, "/item/add").methods(crow::HTTPMethod::POST)
+        ([this](const crow::request &req) {
+            req.body;
             std::lock_guard lock(mutex_.get());
-            data_map.get().push_back(item);
-            return crow::response{crow::status::CREATED, item};
+            return crow::response(400);
         });
     }
 

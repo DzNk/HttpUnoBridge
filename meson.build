@@ -1,19 +1,23 @@
-project('UnoHttpBridge', 'cpp',
-        version : '1.0.0',
-        default_options : ['warning_level=3', 'cpp_std=c++20'])
+project(
+    'UnoHttpBridge', 'cpp',
+    version : '1.0.0',
+    default_options : ['warning_level=3', 'cpp_std=c++20']
+)
 
 # Добавляем флаги компиляции (C++-флаги)
 add_project_arguments('-DCROW_ENABLE_DEBUG', language : 'cpp')
 
 # Указываем зависимости (библиотеки)
-boost_dep = dependency('boost', modules : ['system'])
-pthread_dep = dependency('threads')
+json_dep = dependency('nlohmann_json', required : true)
+crow_dep = dependency('Crow', required : true)
 
 # Собираем исполняемый файл с нужными зависимостями и флагами
-UnoHttpBridge = executable('UnoHttpBridge',
-                           'main.cpp',
-                           install : true,
-                           dependencies : [boost_dep, pthread_dep])
+UnoHttpBridge = executable(
+    'UnoHttpBridge',
+    'main.cpp',
+    install : true,
+    dependencies : [json_dep, crow_dep]
+)
 
 # Добавляем отладочную информацию (аналог -ggdb)
 # В Meson это обычно включается по умолчанию в debug-режиме,
