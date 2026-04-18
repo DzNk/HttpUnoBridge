@@ -5,7 +5,7 @@
 
 class ExecutorService {
     std::mutex mutex_;
-    std::vector<std::string> data_map;
+    std::unordered_map<std::string, LibreOfficeDocument> data_map;
 
     std::thread http_thread_;
     std::unique_ptr<HttpApiService> http_api_service_;
