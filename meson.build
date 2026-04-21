@@ -12,10 +12,17 @@ json_dep = dependency('nlohmann_json', required : true)
 crow_dep = dependency('Crow', required : true)
 stduuid_dep = dependency('stduuid', required : true)
 
+sources = [
+    'main.cpp',
+    'api/handlers/document.cpp',
+    'services/http_api.cpp',
+    'services/libreoffice/document_repository.cpp',
+]
+
 # Собираем исполняемый файл с нужными зависимостями и флагами
 UnoHttpBridge = executable(
     'UnoHttpBridge',
-    'main.cpp',
+    sources,
     install : true,
     dependencies : [json_dep, crow_dep, stduuid_dep]
 )
