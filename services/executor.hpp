@@ -1,5 +1,6 @@
 #pragma once
 
+#include <thread>
 #include "http_api.hpp"
 
 class ExecutorService {
@@ -7,21 +8,9 @@ class ExecutorService {
     std::unique_ptr<HttpApiService> http_api_service_;
 
 public:
-    ExecutorService() {
-        http_api_service_ = std::make_unique<HttpApiService>(
-        );
-    }
+    ExecutorService();
 
-    void run() {
-        http_api_service_->register_routes();
-        http_thread_ = std::thread([this]() {
-            http_api_service_->run();
-        });
-    }
+    void run();
 
-    ~ExecutorService() {
-        if (http_thread_.joinable()) {
-            http_thread_.join();
-        }
-    }
+    ~ExecutorService();
 };

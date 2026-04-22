@@ -14,9 +14,11 @@ stduuid_dep = dependency('stduuid', required : true)
 
 sources = [
     'main.cpp',
-    'api/handlers/document.cpp',
+    'services/executor.cpp',
     'services/http_api.cpp',
+    'api/handlers/document.cpp',
     'services/libreoffice/document_repository.cpp',
+    'services/libreoffice/document.cpp',
 ]
 
 # Собираем исполняемый файл с нужными зависимостями и флагами

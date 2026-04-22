@@ -1,11 +1,18 @@
 #include "document_repository.hpp"
 
-LibreOfficeDocumentRepository *LibreOfficeDocumentRepository::libre_office_document_repository_ = nullptr;
+#include <nlohmann/json.hpp>
+#include <uuid.h>
 
-LibreOfficeDocumentRepository *LibreOfficeDocumentRepository::GetInstance() {
-    std::lock_guard lock(mutex_);
-    if (libre_office_document_repository_ == nullptr) {
-        libre_office_document_repository_ = new LibreOfficeDocumentRepository();
-    }
-    return libre_office_document_repository_;
+
+LibreOfficeDocumentRepository &LibreOfficeDocumentRepository::getInstance() {
+    static LibreOfficeDocumentRepository instance;
+    return instance;
+}
+
+std::string LibreOfficeDocumentRepository::registerDocument(const std::string &name) {
+    uuids::uuid_system_generator gen;
+    const auto uuid_ = uuids::to_string(gen());
+    std::lock_guard lock_guard(mutex_);
+    documents[uuid_] = std::make_unique<LibreOfficeDocument>(name);
+    return uuid_;
 }
